@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <vector>
 #include <conio.h>
 using namespace std;
@@ -34,7 +35,7 @@ public:
     void print() const {
         cout << "ID: " << id << "\n";
         cout << "Name: " << name << "\n";
-        cout << "Description: " << description << "\n";
+        cout << "Description: \n" << description << "\n";
         cout << "Due Date: " << dueDate << "\n";
         cout << "Completed: " << (completed ? "Yes" : "No") << "\n";
         cout << "Priority: " << priority << "\n";
@@ -104,6 +105,7 @@ public:
     void updateTask(int taskId, const Task& updatedTask);
     void displayTasks() const {
         for (const Task& task : tasks) {
+            cout << "\n:";
             task.print();
             cout << "\n";
         }
@@ -118,7 +120,7 @@ int main () {
     while (true) {
         int id, priority;
         bool completed;
-        string name, description, dueDate;
+        string name, description, dueDate, line;
         Task task;
         // Display menu options
         cout << "Task Manager\n";
@@ -136,10 +138,19 @@ int main () {
             case 1:
                 // Add Task
                 // Prompt user for task details and add it to the Task Manager
-                cout << "\nEnter ID: "; cin >> id;
-                cout << "\nEnter Name: "; cin >> name;
-                cout << "\nEnter Description: "; cin >> description;
-                cout << "\nEnter Due date: "; cin >> dueDate;
+                cout << "\nEnter ID: "; 
+                cin >> id; cin.ignore();
+                cout << "\nEnter Name: "; 
+                getline(cin, name);
+                cout << "\nEnter Description (type 'END' on a new line when done):\n";
+                while (getline(cin, line)) {
+                    if (line == "END") {
+                        break;
+                    }
+                    description += line + "\n";
+                }
+                cout << "\nEnter Due date: ";
+                getline(cin, dueDate);
                 cout << "\nEnter Priority (1 = Low, 2 = Medium, 3 = High): "; cin >> priority;
                 task.setId(id);
                 task.setName(name);
