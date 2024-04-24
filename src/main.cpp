@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <conio.h>
 using namespace std;
 
 class Task {
@@ -13,6 +14,14 @@ private:
 
 public:
     // Constructor, getters, setters
+    Task() {
+        this->id = 0;
+        this->name = "";
+        this->description = "";
+        this->dueDate = "";
+        this->priority = 0;
+        this->completed = false;
+    }
     Task(int ID, string n, string desc, string due, int prio, bool completed) {
         this->id = ID;
         this->name = n;
@@ -20,6 +29,15 @@ public:
         this->dueDate = due;
         this->priority = prio;
         this->completed = completed;
+    }
+
+    void print() const {
+        cout << "ID: " << id << "\n";
+        cout << "Name: " << name << "\n";
+        cout << "Description: " << description << "\n";
+        cout << "Due Date: " << dueDate << "\n";
+        cout << "Completed: " << (completed ? "Yes" : "No") << "\n";
+        cout << "Priority: " << priority << "\n";
     }
 
     int getId() {
@@ -46,27 +64,27 @@ public:
         return completed;
     }    
 
-    int setId(int ID) {
+    void setId(int ID) {
         this->id = ID;
     }
     
-    string setName(string name) {
+    void setName(string name) {
         this->name = name;
     }
 
-    string setDescription(string description) {
+    void setDescription(string description) {
         this->description = description;
     }
 
-    string setDue(string dueDate) {
+    void setDue(string dueDate) {
         this->dueDate = dueDate;
     }
     
-    int setPriority(int priority) {
+    void setPriority(int priority) {
         this->priority = priority;
     }
 
-    bool setStatus (bool complete) {
+    void setStatus (bool complete) {
         this->completed = complete;
     }
 
@@ -77,20 +95,31 @@ public:
 class TaskManager {
 private:
     vector<Task> tasks;
-
 public:
-    void addTask(const Task& task);
+
+    void addTask(const Task& task) {
+        this->tasks.push_back(task);
+    }
     void deleteTask(int taskId);
     void updateTask(int taskId, const Task& updatedTask);
-    void displayTasks() const;
-    // Other methods as needed
+    void displayTasks() const {
+        for (const Task& task : tasks) {
+            task.print();
+            cout << "\n";
+        }
+    }
+    
 };
+
 
 int main () {
     TaskManager taskManager;
-
     // Main program loop
     while (true) {
+        int id, priority;
+        bool completed;
+        string name, description, dueDate;
+        Task task;
         // Display menu options
         cout << "Task Manager\n";
         cout << "1. Add Task\n";
@@ -100,22 +129,25 @@ int main () {
         cout << "5. Exit\n";
         cout << "Enter your choice: ";
 
-        int choice;
+        int choice = 0;
         cin >> choice;
 
         switch(choice) {
             case 1:
                 // Add Task
-                int id;
-                bool completed, priority;
-                string name, description, dueDate;
-
+                // Prompt user for task details and add it to the Task Manager
                 cout << "\nEnter ID: "; cin >> id;
                 cout << "\nEnter Name: "; cin >> name;
                 cout << "\nEnter Description: "; cin >> description;
                 cout << "\nEnter Due date: "; cin >> dueDate;
                 cout << "\nEnter Priority (1 = Low, 2 = Medium, 3 = High): "; cin >> priority;
-                // Prompt user for task details and add it to the Task Manager
+                task.setId(id);
+                task.setName(name);
+                task.setDescription(description);
+                task.setDue(dueDate);
+                task.setPriority(priority);
+                task.setStatus(false); // by default
+                taskManager.addTask(task); 
                 break;
             case 2:
                 // Delete Task
@@ -127,13 +159,20 @@ int main () {
                 break;
             case 4:
                 // Display Tasks
+                char input;
+                taskManager.displayTasks();
                 // Call the displayTasks() method of TaskManager
+                    cout << "\nPress Any Key to continue..."; 
+                    getch();
                 break;
             case 5:
                 // Exit the program
-                break;
+                return 0;
             default:
                 cout << "Invalid choice. Please try again.\n";
         }
+
+        system("cls");
+
     };
 } 
