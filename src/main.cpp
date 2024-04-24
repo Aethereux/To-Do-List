@@ -56,7 +56,7 @@ public:
         return dueDate;
     }
 
-    bool getPriority() {
+    int getPriority() {
         return priority;
     }
 
