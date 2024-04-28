@@ -123,7 +123,7 @@ int main () {
         string name, description, dueDate, line;
         Task task;
         // Display menu options
-        cout << "Task Manager\n";
+        cout << "To-Do-List\n";
         cout << "1. Add Task\n";
         cout << "2. Delete Task\n";
         cout << "3. Mark Task as Completed\n";
